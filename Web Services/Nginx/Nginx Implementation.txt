@@ -1,0 +1,56 @@
+[Ubuntu 20-04]
+
+start :------>
+
+# hostnamectl set-hostname webserver
+
+# apt install nginx -y
+
+# systemctl start nginx && systemctl enable nginx && systemctl status nginx
+
+# ufw allow 443/tcp
+# ufw allow 80/tcp
+
+-----------******-----------
+The defualt path Nginx :
+/usr/share/nginx/html
+But we Not use that !!!!
+-----------******-----------
+
+# mkdir -p /var/www/test.com/html
+# chown -R $USER:$USER /var/www/test.com/html
+# chmod -R 755 /var/www/test.com/html
+
+# cd /var/www/test.com/html
+Put our website Files in this path
+
+Nginx Configuration :
+# cd /etc/nginx/sites-available
+# vi test.com
+-------------HTTP Config-------------
+server {
+	listen 80;
+	listen [::]:80;
+
+	root /var/www/test.com/html;
+	index index.html index.htm index.nginx-debian.html;
+
+	server_name test.com www.test.com;
+	location / {
+		try_files $uri $uri/ =404;
+	}
+}
+-------------HTTP Config-------------
+
+Now we most enable our site (Soft link from sites-available to sites-enabled):
+# cd /etc/nginx
+# ln -s /etc/nginx/sites-available/test.com /etc/nginx/sites-enabled/
+
+Nginx Syntax Test :
+# nginx -t
+
+# systemctl restart nginx && systemctl status nginx
+
+!!!!!!!! now Site come up without SSL !!!!!!!!
+
+

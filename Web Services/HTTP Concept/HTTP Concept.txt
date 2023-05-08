@@ -1,0 +1,55 @@
+#Basic Apache Configuration
+#Apache Configuration for HTTPs
+#LPIC-2 Study Guide
+
+Basic HTTP Session :
+
+________                          __________
+|      |TCP Connection Request -->|        |
+|      |<------ TCP Connection Ack|        |
+|      |HTTP Get ---------------->| Server |
+|Client|<------------- HTTP 200 ok|        |
+|      |<--------------- HTML Data|        |
+|      |<-TCP Connection Terminate|        |
+|______|TCP Connection End ------>|________|
+
+The main responsible of HTTP :
+HTTP Provides an easy way to transfer data between the server and client .
+
+HTTP Client Request :
+CONNECT    Convert the connection into a atunnel , usually for security .
+DELETE     Delete the specified resource .
+GET        Request the specified resource
+HEAD       Request the title of the specified resource
+OPTIONS    Retrieve the http requests that the server supports
+PATCH      Apply a modification to a resource
+POST       Send specified data to the server for processing
+PUT        Store specified data at a specified location
+TRACE      Send the recieve request back to the client
+
+
+
+The three-digit codes are broken down into five categories :
+1XX - Informational Messages
+2XX - Success
+3XX - Redirection
+4XX - Client error
+5XX - Server error (502-503-504)*
+
+
+
+HTTPs : HTTPs uses shared key encryption to encrypt the traffic sent across the network Between the client and the server .
+
+
+The HTTPs Communication process :
+
+ Client				    Server	
+--------			   --------
+	TCP Connection request-->
+	<------TCP Connection ack
+	request public key------>
+	<-------return public key
+	validated public key
+	encrypted HTTP request-->
+	<--encrypted HTTP response
+
