@@ -1,0 +1,122 @@
+* One of the most popular and important services (DNS)
+> Basic DNS Server Configuration
+> Create and Maintain DNS Zones
+> Security a DNS Server
+
+# hostnamectl set-hostname dns1.test.com
+
+DNS Server Address Path in linux:
+# /etc/resolv.conf
+
+DNS Address Local use: (This is good for small use)
+# /etc/hosts
+
+--------------------------------------------------
+
+www.test.com
+	-----
+	Top-Level Domains :  .com
+			     .net
+			     .ir
+			     .org
+ICANN : Internet Corporation for Assigned Names and Numbers
+--------------------------------------------------
+
+DNS Package Name in Linux : (Bind)
+
+[CentOS-7]
+Start :----->
+
+# yum install bind bind-utils -y
+# systemctl start named && systemctl enable named && systemctl status named
+
+First of all, we take a backup of the main configuration file :
+# cp /etc/named.conf /etc/named.conf.backup
+# vi /etc/named.conf
+
+-----------------named Config-----------------
+
+# Modify Filds :
+listen-on port 53 { 127.0.0.1; <Your IP Address>; };
+allow-query     { localhost; <IP Range or Specific IP>;};
+
+# Now we will go to the bottom of the file and add these items :
+## Forward lookup Zone
+
+zone "test.com" IN {
+	type master;
+	file "test.com.forward";
+	allow-update {none;};
+	allow-query {any;};
+};
+
+## Reverse lookup Zone
+
+zone "211.168.192.in-addr.arpa" IN {
+	type master;
+	file "test.com.reverse";
+	allow-update {none;};
+	allow-query {any;};
+};
+
+-----------------named Config-----------------
+
+Warning : We should not *restart* the bind service now , Because we haven't created the zone files yet
+
+Important point : The name of the files must be exactly the same as written in the *named* configuration file
+
+# vi /var/named/test.com.forward
+
+-----------------Forward Config-----------------
+
+$TTL 86400
+@ IN SOA dns1.test.com. admin.test.com. (
+			2020011800 ;Serial
+			3600 ;Refresh
+			1800 ;Retry
+			604800 ;Expire
+			86400 ;Minimum TTL
+)
+
+@ IN NS dns1.test.com.
+dns1 IN A 192.168.211.138
+
+test.com. IN MX 10 mail1.test.com.
+test.com. IN MX 20 mail2.test.com.
+
+www IN A <IP Address>
+mail1 IN A <IP Address>
+mail2 IN A <IP Address>
+webmail IN A <IP Address>
+blog IN A <IP Address>
+
+ftp IN CNAME www.test.com.
+mail IN CNAME webmail.test.com.
+
+-----------------Forward Config-----------------
+
+# vi /var/named/test.com.reverse
+
+-----------------Reverse Config-----------------
+
+$TTL 86400
+@ IN SOA dns1.test.com. admin.test.com. (
+			2020011800 ;Serial
+			3600 ;Refresh
+			1800 ;Retry
+			604800 ;Expire
+			86400 ;Minimum TTL
+)
+
+@ IN NS dns1.test.com.
+dns1  IN  A  192.168.211.138
+138 IN PTR dns1.test.com.
+
+140	IN	PTR	www.test.com.
+141	IN	PTR	webmail.test.com.
+142	IN	PTR	blog.test.com.
+143	IN	PTR	mail1.test.com.
+144	IN	PTR	mail2.test.com.
+
+-----------------Reverse Config-----------------
+
