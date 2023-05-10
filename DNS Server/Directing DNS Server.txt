@@ -305,3 +305,103 @@ ftp IN CNAME www.test.com.
 mail IN CNAME webmail.test.com.
 
 ------------------------Forward------------------------
+
+# vi /etc/bind/test.com.reverse
+
+------------------------Reverse------------------------
+
+$TTL 86400
+@ IN SOA dns1.test.com. admin.test.com. (
+			2020011800 ;Serial
+			3600 ;Refresh
+			1800 ;Retry
+			604800 ;Expire
+			86400 ;Minimum TTL
+)
+
+@ IN NS dns1.test.com.
+dns1 IN A <IP Address>
+@ IN NS dns2.test.com.
+dns2 IN A <IP Address>
+
+<Last Octed of IP>	IN	PTR	www.test.com.
+<Last Octed of IP>	IN	PTR	webmail.test.com.
+<Last Octed of IP>	IN	PTR	blog.test.com.
+
+## Never Set CNAME Record
+
+------------------------Reverse------------------------
+
+# chown bind:bind /etc/bind/test.com.forward
+# chown bind:bind /etc/bind/test.com.reverse
+
+Syntax Test :
+# named-checkconf /etc/bind/named.conf.local
+# named-checkzone test.com /etc/bind/test.com.forward
+# named-checkzone <IP Address> /etc/bind/test.com.reverse
+
+# systemctl restart named && systemctl enable named && systemctl status named
+
+----------------------- Firewall -----------------------
+
+IF Want to use *firewalld* on Ubuntu :
+
+# apt install firewalld
+# firewall-cmd --add-service=dns --permanent
+# firewall-cmd --reload
+
+----------------------- Firewall -----------------------
+
+vi /etc/resolv.conf
+	nameserver <IP Address Master>
+	nameserver <IP Address Slave>
+	
+Now testing with *nslookup*
+
+----------------------------------------------------------------------------------------------------
+
+Config Slave Server :
+
+# apt install bind9 bind9utils bind9-doc dnsutils -y
+
+# cp /etc/bind/named.conf.local /etc/bind/named.conf.local.backup
+
+# vi /etc/bind/named.conf.local
+
+------------------------named.conf.local------------------------
+
+## Forward lookup Zone
+
+zone "test.com" IN {
+	type slave;
+	file "/var/cache/bind/test.com.forward";
+	masters {<Master IP Address>;};
+};
+
+## Reverse lookup Zone
+
+zone "211.168.192.in-addr.arpa" IN {
+	type slave;
+	file "/var/cache/bind/test.com.reverse
+	masters {<Master IP Address>;};
+};
+
+------------------------named.conf.local------------------------
+
+---------------- Firewall ----------------
+
+# firewall-cmd --permanent --add-service=dns
+# firewall-cmd --reload
+
+---------------- Firewall ----------------
+
+Syntax Test :
+# named-checkconf
+
+# systemctl restart named && systemctl enable named && systemctl status named
+
+# vi /etc/resolv.conf
+	nameserver <Master IP Address>
+	nameserver <Slave IP Address>
+	
+Now testing with *nslookup*
