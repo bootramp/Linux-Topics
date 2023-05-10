@@ -278,3 +278,30 @@ zone "211.168.192.in-addr.arpa" IN {
 
 ------------------------Forward------------------------
 
+$TTL 86400
+@ IN SOA dns1.test.com. admin.test.com. (
+			2020011800 ;Serial
+			3600 ;Refresh
+			1800 ;Retry
+			604800 ;Expire
+			86400 ;Minimum TTL
+)
+
+@ IN NS dns1.test.com.
+@ IN NS dns2.test.com.
+
+dns1 IN A <IP Address>
+dns2 IN A <IP Address>
+
+test.com. IN MX 10 mail1.test.com.
+test.com. IN MX 20 mail2.test.com.
+
+www IN A <IP Address>
+mail1 IN A <IP Address>
+mail2 IN A <IP Address>
+webmail IN A <IP Address>
+
+ftp IN CNAME www.test.com.
+mail IN CNAME webmail.test.com.
+
+------------------------Forward------------------------
