@@ -1,1 +1,84 @@
 202 Module
+> Email Function are Broken into separate pieces and then assigned to separate programs running on the system.
+
+Functions :
+    The Mail Transfer Agent (MTA)
+    The Mail Delivery Agent (MDA)
+    The Mail User Agent (MUA)
+
+Mail transfer Agent :
+  Determining the destination to send email.
+
+SMTP : 
+    The most common protocol used for internet mail transfer is 
+
+Famouse MTA :
+    | Send Mail
+    | Postfix **
+    | Exim
+    | Qmail
+    
+Mail Delivery Agent :
+    Sending emails and couriers. 
+
+Messages -------> MTA - MTA --------> Mail Box
+
+Mail Box Types :
+    | mBox (/var/spool/mail/<username>) All Messages in one File
+    | Maildir (/home/maildir) All Messages in Separated Files **
+    
+    
+Famouse MDA :
+    | BinMail
+    | Procmail
+    
+Mail User Agent :
+  Display Messgaes.
+
+Email Protocols :
+    Three Standard Protocols When Working with Email in Linux :
+            | Simple Mail Transfer Protocol (SMTP)
+            | Post Office Protocol (POP)
+            | Internet  Messages Access Protocol (IMAP)
+            
+SMTP :----> Send Mail 
+POP  :----> Recieve Mail
+IMAP :----> Recieve Mail
+
+IMAP Fastes Than POP
+
+SMTP Basic Commands :
+  -   HELLO  ----> opening greeting from client
+  -   MAIL   ----> identifies sender of message
+  -   RCPT   ----> identifies recipients
+  -   DATA   ----> identifies start of Message
+  -   SEND   ----> sends message to terminal
+  -   QUIT   ----> stops the SMTP session
+
+------------------------------------------------------------------------------------
+
+Start : 
+[CentOS-7]
+
+# hostnamectl set-hostname <mail.test.com>
+
+# vi /etc/hosts
+    <Self IP Of This Server> mail.test.com
+
+# yum install postfix -y
+
+To use POP and IMAP service at the same time, we need to install *Dovecot* package.
+  The Dovecot Package was Created Primarily as an IMAP Server , But it also Supports POP3.
+
+Tools Are MUA and MDA :
+# yum install mailx -y
+
+
+---------------- Firewall ----------------
+For WebPanle Access :
+# firewall-cmd --permanent --add-port=80/tcp
+# firewall-cmd --reload
+---------------- Firewall ----------------
+
+> PostFix Configuration :
+
