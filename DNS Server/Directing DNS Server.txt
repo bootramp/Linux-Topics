@@ -150,3 +150,51 @@ Now we must testing :
 (nslookup Come from *bind-utils* Package)
 
 ----------------------------------------------------------------------------------------------------
+
+Now we want to start a DNS server as a slave :
+Slave Server Config : (Config on another Server)
+
+# hostnamectl set-hostname dns2.test.com
+
+First of all, we enter the master server and we have to change some things :
+
+-----------------------Master Server-----------------------
+# cd /var/named
+# vi test.com.forward
+-----------------------Forward Config-----------------------
+@ IN NS dns2.test.com.
+dns2 IN A <Slave IP Server>
+## Now we understand to the server that we have a slave server
+-----------------------Forward Config-----------------------
+# vi test.com.reverse
+-----------------------Reverse Config-----------------------
+@ IN NS dns2.test.com.
+dns2 IN A <Slave IP Server>
+<First Octed OF Slave IP> IN PTR dns2.test.com.
+-----------------------Reverse Config-----------------------
+-----------------------Master Server-----------------------
+
+Now We go to Slave Server :
+
+# yum install bind bind-utils -y
+
+# cp /etc/named.conf /etc/named.conf.backup
+# vi /etc/named.conf
+
+-----------------named Config-----------------
+
+listen-on port 53{127.0.0.1; <Slave IP Addres>;};
+allow-query {localhost; <IP Range or Specific IP Address>};
+
+# Now we will go to the bottom of the file and add these items :
+## Forward lookup Zone
+
+zone "test.com" IN {
+	type slave;
+	file "slave/test.com.forward";
+	masters {<master IP Adress>; <If had multiple Master add IP>;};
+};
+
+## Reverse lookup Zone
+
+zone
