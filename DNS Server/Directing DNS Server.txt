@@ -191,10 +191,50 @@ allow-query {localhost; <IP Range or Specific IP Address>};
 
 zone "test.com" IN {
 	type slave;
-	file "slave/test.com.forward";
+	file "slaves/test.com.forward";
 	masters {<master IP Adress>; <If had multiple Master add IP>;};
 };
 
 ## Reverse lookup Zone
 
-zone
+zone "211.168.192.in-addr.arpa" IN {
+	type slave;
+	file "slaves/test.com.reverse";
+	masters {<master IP Adress>; <If had multiple Master add IP>;};
+};
+
+-----------------named Config-----------------
+
+# vi /etc/resolve.conf
+	nameserver 192.168.211.138 (Master Server)
+	nameserver 192.168.211.139 (Slave Server)
+	
+Syntax test :
+# named-checkconf /etc/named.conf
+If no Back Message , Means everything is OK
+
+# systemctl restart named && systemctl enable named && systemctl status named
+
+----------------------An extremely important point----------------------
+If we come to the main server and add a record, we must increase the serial number by one so that the slave server notices the change.
+----------------------An extremely important point----------------------
+
+In large organizations, we use coreDNS ;
+cPanel : cpanel makes it possible for web master to easily setup a server with websites, email accounts, and DNS. it provides a graphical user interface to easily manage and host multiple websites on your VPS or dedicated serevr serviecs.
+
+For Check :
+# cd /var/named
+# ls
+	we must see : test.com.forward - test.com.reverse
+
+--------------------------------------------------
+Firewall Configuration :
+
+# firewall-cmd --permanent --add-service=dns --zone=public
+# firewall-cmd --reload
+--------------------------------------------------
+
+Now we must testing :
+# nslookup <test.com> 
+(nslookup Come from *bind-utils* Package)
+
