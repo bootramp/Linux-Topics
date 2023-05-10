@@ -81,6 +81,7 @@ $TTL 86400
 @ IN NS dns1.test.com.
 dns1 IN A 192.168.211.138
 
+
 test.com. IN MX 10 mail1.test.com.
 test.com. IN MX 20 mail2.test.com.
 
@@ -120,3 +121,32 @@ dns1  IN  A  192.168.211.138
 
 -----------------Reverse Config-----------------
 
+Bind Service Add user called *named* 
+
+# chown named:named /var/named/test.com.forward
+# chown named:named /var/named/test.com.reverse
+--------------------------------------------------
+Syntax test :
+
+# named-checkconf /etc/named.conf
+# named-checkzone test.com /var/named/test.com.forward
+# named-checkzone 192.168.211.138 /var/named/test.com.reverse
+
+# systemctl restart named && systemctl enable named && systemctl status named
+--------------------------------------------------
+Firewall Configuration :
+
+# firewall-cmd --permanent --add-service=dns --zone=public
+# firewall-cmd --reload
+--------------------------------------------------
+Last Step :
+We delete all the contents of the *resolve.conf* file and put the following value in it
+
+# vi /etc/resolv.conf
+nameserver 192.168.211.138 (The IP itself is the same server)
+
+Now we must testing :
+# nslookup <test.com> 
+(nslookup Come from *bind-utils* Package)
+
+----------------------------------------------------------------------------------------------------
