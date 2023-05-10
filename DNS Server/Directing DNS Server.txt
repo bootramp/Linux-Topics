@@ -238,3 +238,43 @@ Now we must testing :
 # nslookup <test.com> 
 (nslookup Come from *bind-utils* Package)
 
+----------------------------------------------------------------------------------------------------
+
+> Now we will implement this process on *Ubuntu Servers*
+
+[Ubuntu 20.04]
+Start :------>
+
+# apt install bind9 bind9utils bind9-doc dnsutils
+
+Backup named.conf
+
+# cp /etc/bind/named.conf.local /etc/bind/named.conf.local.backup
+# vi /etc/bind/named.conf.local
+
+------------------------named.conf.local------------------------
+## Forward lookup Zone
+
+ zone "test.com" IN {
+ 	type master;
+	file "/etc/bind/test.com.forward"
+	allow-update {none;};
+	allow-transfer {<Slave IP Address>;};
+	also-notify {<Slave IP Address>;};
+};
+
+## Reverse lookup Zone
+
+zone "211.168.192.in-addr.arpa" IN {
+	type master;
+	file "/etc/bind/test.com.reverse";
+	allow-update {none;};
+	allow-transfer {<Slave IP Address>;};
+	also-notify {<Slave IP Address>;};
+};
+------------------------named.conf.local------------------------
+
+# vi /etc/bind/test.com.forward
+
+------------------------Forward------------------------
+
