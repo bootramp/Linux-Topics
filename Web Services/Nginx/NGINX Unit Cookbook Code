@@ -48,7 +48,7 @@ This command will display the name of all the available packages, the latest ver
 
 Install additional modules that you may want to use with Unit :
 # yum install unit-devel.x86_64 unit-jsc8.x86_64 unit-php.x86_64 unit-python.x86_64 -y
-
+------------------------------------------------------------------------------------------------------------------------------
 > Debian-Based Systems (.deb)
 Problem :
     You need to install NGINX Unit on a Debain or Ubuntu machine.
@@ -72,4 +72,6 @@ Solution :
     
     You can search for module packages available from the repository for your operationg systems by using the following command :
     # apt-cache search unit- | grep NGINX
-    
+    Install additional modules that you may want to use with Unit :
+    # apt install unit-php unit-python2.7 unit-perl unit-ruby unit-dev unit-jsc-common unit-jsc8
+     
