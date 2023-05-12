@@ -1,0 +1,19 @@
+The first step for using NGINX Unit is installing it.
+
+> Red Hat-Based Systems (.rpm)
+Problem :
+    You need to install NGINX Unit on Red Hat, CentOS, or Amazon Linux.
+Solution :
+    Create a file named "/etc/yum.repo.d/unit.repo" that contains the following contents :
+    ************
+    [unit]
+    name=unit repo
+    baseurl=https://packages.nginx.org/unit/<OS>/$releasever/$basearch/
+    gpgcheck=0
+    enabled=1
+    ************
+    Alter the file, replacing <OS> with rhel, centos, amzn, or amzn2, depending on your distribution.
+    
+    install the Unit base package :
+    # yum install unit
+
