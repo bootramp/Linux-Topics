@@ -17,3 +17,35 @@ Solution :
     install the Unit base package :
     # yum install unit
 
+# yum list available unit-\* 
+This command will display the name of all the available packages, the latest version, and the repositories to which they belong .
+        [
+        Available Packages
+        unit-api.noarch                                                         1.0-3.el7                                                  base
+        unit-api-javadoc.noarch                                                 1.0-3.el7                                                  base
+        unit-debuginfo.x86_64                                                   1.30.0-1.el7.ngx                                           unit
+        unit-devel.x86_64                                                       1.30.0-1.el7.ngx                                           unit
+        unit-go.x86_64                                                          1.13.0-1.el7.ngx                                           unit
+        unit-go.noarch                                                          1.30.0-1.el7.ngx                                           unit
+        unit-go-debuginfo.x86_64                                                1.8.0-1.el7.ngx                                            unit
+        unit-jsc-common.noarch                                                  1.30.0-1.el7.ngx                                           unit
+        unit-jsc11.x86_64                                                       1.30.0-1.el7.ngx                                           unit
+        unit-jsc11-debuginfo.x86_64                                             1.30.0-1.el7.ngx                                           unit
+        unit-jsc8.x86_64                                                        1.30.0-1.el7.ngx                                           unit
+        unit-jsc8-debuginfo.x86_64                                              1.30.0-1.el7.ngx                                           unit
+        unit-perl.x86_64                                                        1.30.0-1.el7.ngx                                           unit
+        unit-perl-debuginfo.x86_64                                              1.30.0-1.el7.ngx                                           unit
+        unit-php.x86_64                                                         1.30.0-1.el7.ngx                                           unit
+        unit-php-debuginfo.x86_64                                               1.30.0-1.el7.ngx                                           unit
+        unit-python.x86_64                                                      1.13.0-1.el7.ngx                                           unit
+        unit-python-debuginfo.x86_64                                            1.13.0-1.el7.ngx                                           unit
+        unit-python27.x86_64                                                    1.30.0-1.el7.ngx                                           unit
+        unit-python27-debuginfo.x86_64                                          1.30.0-1.el7.ngx                                           unit
+        unit-python36.x86_64                                                    1.30.0-1.el7.ngx                                           unit
+        unit-python36-debuginfo.x86_64                                          1.30.0-1.el7.ngx                                           unit
+        ]
+ 
+
+Install additional modules that you may want to use with Unit :
+# yum install unit-devel.x86_64 unit-jsc8.x86_64 unit-php.x86_64 unit-python.x86_64 -y
+
