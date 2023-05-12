@@ -49,3 +49,27 @@ This command will display the name of all the available packages, the latest ver
 Install additional modules that you may want to use with Unit :
 # yum install unit-devel.x86_64 unit-jsc8.x86_64 unit-php.x86_64 unit-python.x86_64 -y
 
+> Debian-Based Systems (.deb)
+Problem :
+    You need to install NGINX Unit on a Debain or Ubuntu machine.
+Solution :
+    Ensure that Advanced Package Tool (APT) system is able to use HTTPS repositories :
+        # apt install apt-transport-https
+    Create a file named "/etc/apt/sources.list.d/unit.list" that contains the following contents :
+    ************
+    deb https://packages.nginx.org/unit/<OS> CODENAME unit
+    deb-src https://packages.nginx.org/unit/<OS> CODENAME unit
+    ************
+    Alter the file, replacing <OS> with ubuntu or debian. Replace CODENAME with the code name of your systems. if you don't know the code name, following command will output the value you need :
+    # lsb_release -c
+    Codename    xenial # Example
+    
+    Run the following commands to install the NGINX signing key and install Unit :
+    # wget http://nginx.org/keys/nginx_signing.key
+    # apt-key add nginx_signing.key
+    # apt update
+    # apt install unit
+    
+    You can search for module packages available from the repository for your operationg systems by using the following command :
+    # apt-cache search unit- | grep NGINX
+    
