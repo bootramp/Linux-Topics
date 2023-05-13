@@ -91,4 +91,35 @@ If this text showing "192.168.0...:3260,1 iqn.2022 ......." it's mean can find s
 1- 
 ------------------- Targetcli -------------------
 # targetcli
-# cd /iscsi/iqn.2022-09.com.microsoft
+# cd /iscsi/iqn.2022-09.com.microsoft/tpg1
+> There are three attributes that we need to configure
+# set attribute authentication=0
+# set attribute generate_node_acls=<0 (Check All Acl roles) or 1 (Ignore All Roles)>
+> For write permission :
+# set attribute demo_mode_write_protect=0
+# saveconfig
+# exit
+# systemctl restart target
+------------------- Targetcli -------------------
+
+The work is done, now we have to partition the disk like a local disk and install the file system on it and mount it.
+> Can the client disconnect this connection ??
+yes but first of all must unmount disk then insert this command :
+# iscsiadm -m node -T iqn.2022-09.com.microsoft -p <Server IP Address> -u (-u is disconnect command)
+
+*** Tip : If the new disk is published by the server, the client must disconnect and reconnect again .
+
+> for add new disk to server :
+------------------ Add new Disk ------------------
+# targetcli
+> cd /backstore/block
+> create dev=/dev/sd? name=disk2
+> cd /iscsi/iqn.2022-09.com.microsoft/tpg1/LUN
+> create /backstore/block/disk2
+> saveconfig
+> exit
+------------------ Add new Disk ------------------
+
+# systemctl restart target
+
+
