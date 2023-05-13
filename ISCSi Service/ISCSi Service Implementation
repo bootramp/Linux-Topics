@@ -1,3 +1,14 @@
 Topics : 
 - ISCSi
 - LVM
+
+In large data centers, they put devices called SAN Storage, which only has a hard drive inside .
+
+Ref = https://cdn.ttgtmedia.com/rms/onlineImages/storage-san_diagram-f_mobile.png
+
+Initiator Server ------ISCSi------> Target SAN 
+                     FiberOptic
+In this scenario, the server and SAN are kilometers away from each other.
+We connect these two places by using optical fiber.
+It happens that SAN disks can be accessed locally in the server.
+
