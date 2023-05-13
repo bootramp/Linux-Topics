@@ -19,4 +19,76 @@ In this scenario, we have two server : 1- Storage Server  2- Client
 [CentOS]
 Start :----->
 
+------------------- TargetCLI -------------------
 # targetcli
+# ls
+(Tree Structure) 
+o-/
+  o- backstore
+    o-
+    
+    
+  o- iscsi
+  
+In the first step, we make the hard disk a member of the backstore.
+# cd /backstore
+# cd block
+# create dev=/dev/sda name=disk1
+> We defined *sda* in our own *backstore*
+# ls
+> Now we want to define an *iqn* or *name* for our server. If the client wants to look for this server, it will find it with this name .
+# cd /
+# cd /iscsi
+# create iqn.2022-09.com.microsoft
+> iscsi communication is done through port 3260. So we have to go to the firewall and open it
+# cd iqn.2022-09.com.microsoft/tpg1/Portals
+# ls
+# delete 0.0.0.0 3260
+We don't want it to respond to this protocol through all the server interfaces
+# create <Server IP Address> 3260
+> Now we have to publish this disk and give it to the client. So we have to define a LUN for it
+# cd /iscsi/iqn.2022-09.com.microsoft/tpg1/luns
+# create /backstore/block/disk1
+# create LUN 0
+> For quite
+# cd /
+# saveconfig
+#exit
+------------------- TargetCLI -------------------
+
+Go to Firewall Configuration :
+------------------- Firewall -------------------
+# systemctl status firewalld
+# firewall-cmd --permanent --add-service=iscsi-target
+# firewall-cmd --permanent --add-port=3260/tcp
+# firewall-cmd --reload
+------------------- Firewall -------------------
+
+# systemctl start target && systemctl enable target
+
+-----------------------------------------------------------------------------
+
+[Client Side]
+
+[CentOS]
+
+# yum install iscsi-initiator-utils -y
+
+# systemctl start iscsid
+
+> When the client wants to connect, it must do discovery first
+
+# iscsiadm -m discovery -t st -p <Server IP Address>
+If this text showing "192.168.0...:3260,1 iqn.2022 ......." it's mean can find server .
+> Now must login in to the server :
+# iscsiadm -m node -T iqn.2022...... -p <Server IP Address> -l
+> At this moment, the following error occurs 
+(iscsi login failed due to authorization failure)
+> for solve this problem :
+	1- Everyone can connect without authentication
+	2- With authentication, only the authorized user can connect
+
+1- 
+------------------- Targetcli -------------------
+# targetcli
+# cd /iscsi/iqn.2022-09.com.microsoft
