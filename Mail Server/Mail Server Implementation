@@ -192,3 +192,19 @@ Now , We read our emails with pop3 protocol .
 
 ---------------------------------------------------------------------------
 
+> Now we want to send and receive emails graphically
+Our graphics program is [Squirrelmail]
+
+First install and start apache service :
+# yum install httpd -y
+# systemctl start httpd
+# systemctl enable httpd
+# systemctl status httpd
+
+Now install Squirrelmail :
+# yum install squirrelmail -y
+
+Now go to squirrelmail folder and configure it according to your server :
+# cd /usr/share/squirrelmail/config/
+Execute this file :
+# ./conf.pl
