@@ -82,3 +82,46 @@ For WebPanle Access :
 
 > PostFix Configuration :
 
+# vi /etc/postfix/main.cf
+Main File of *Postfix* Configuration :
+---------------- PostFix ----------------
+	myhostname = <Name:mail.test.com>
+	mydomain = <DomainName:test.com>
+	<uncomment> : Depending on our needs
+	# myorigin = $ myhostname
+	# myorigin = $ mydomain
+	inet_interfaces = all
+	inet_protocols = all
+	<commenting> :
+	# mydestination = $......
+	<uncomment> :
+	mydestination = $myhostname , localhost.$myhostname , localhost.$mydomain
+	<uncomment> :
+	mynetworks = <IP Range/Prefix> , 127.0.0.0/8
+	<uncomment> This item will put each email into a separate file :
+	home_mailbox = Maildir/
+---------------- PostFix ----------------
+
+# systemctl restart postfix
+
+Install Telnet package For start operation :
+# yum install telnet -y
+
+Now we want to send email from user1 to user2 :
+---------------- Send mail ----------------
+# telnet localhost <smtp or 25>
+(If the code returns 25, then everything is ready)
+	helo localhost 
+	(If the code returns 250, then everything is ready)
+	(Sender : )
+	mail from:user1
+	(If 250 = ok)
+	(Receiver : )
+	rcpt to:user2
+	(If 250 = ok)
+	(The text we want to write : )
+	data <Enter>
+	<text>
+	. <Enter>
+	quit
+---------------- Send mail ----------------
