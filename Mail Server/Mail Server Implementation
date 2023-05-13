@@ -59,6 +59,7 @@ SMTP Basic Commands :
 
 Start : 
 [CentOS-7]
+[> Send Mail with SMTP Protocol.]
 
 # hostnamectl set-hostname <mail.test.com>
 
@@ -125,3 +126,63 @@ Now we want to send email from user1 to user2 :
 	. <Enter>
 	quit
 ---------------- Send mail ----------------
+
+To see the email received by user2 :
+# cd /home/user2/maildir/
+# ls 
+# cat <The desired email>.mail.test.com
+---------------------------------------------------------------------------
+[> Send Mail with IMAP-POP3 Protocol.]
+
+# yum install Dovecot -y
+We install this package so that we can read emails with *POP*
+(There is a document on the dovecot site)
+# cd /etc/dovecot
+# vi dovecot.conf
+---------------- Dovecot ----------------
+	<uncomment> :
+	protocols = imap pop3 lmpt
+---------------- Dovecot ----------------
+
+# cd /etc/dovecot/conf.d
+** We have to change all the files in this path **
+
+# vi lo-mail.conf
+---------------- lo-mail ----------------
+	<uncomment> :
+	mail_location = maildir:~/maildir
+---------------- lo-mail ----------------
+
+# vi lo-auth.conf
+---------------- lo-auth ----------------
+	<uncomment> :
+	disable_plaintext_auth = yes
+	auth_mechanisms = plain login
+---------------- lo-auth ----------------
+
+# vi lo-master.conf
+---------------- lo-master ----------------
+	unix_listener auth-userdb {
+		mode = 0600
+		user = postfix
+		group = postfix
+	}
+---------------- lo-master ----------------
+
+# systemctl status dovecot
+# systemctl start dovecot
+
+Now , We read our emails with pop3 protocol .
+
+----------------- Read With POP -----------------
+# telnet localhost pop3
+	user <user1>
+	pass <password>
+	(If correctly insert data, "ok logged in" return)
+	retr 1
+	(For read Mail)
+----------------- Read With POP -----------------
+** Send with SMTP , Read with POP **
+
+---------------------------------------------------------------------------
+
