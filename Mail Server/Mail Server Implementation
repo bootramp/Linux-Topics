@@ -233,3 +233,36 @@ Execute this file :
 ## S = Save data
 ## Q = Qiut
 ------------------ conf.pl ------------------
+
+Now we go to the *HTTP* settings, which is the *Apache* service :
+
+Now add following lines at the end of httpd.conf file: 
+(Note: If these lines are already added at the end of file SKIP this step.)
+
+# vi /etc/httpd/conf/httpd.conf
+--------------- httpd.conf ---------------
+	Alias /webmail /usr/share/squirrelmail
+	<Directory /usr/share/squirrelmail>
+		Options Indexes FollowSymLinks
+		RewriteEngine On
+		AllowOverride All
+		DirectoryIndex index.php
+		Order allow,deny
+		Allow from all
+	</Directory>
+## save changes and quite
+--------------- httpd.conf ---------------
+
+# systemctl restart httpd
+# systemctl restart dovecot
+
+-----------------------------------------------
+## Security Configuration :
+	setsebool -P httpd_can_network_connect on
+		or (setsebool -P httpd_can_network_connect=1)
+-----------------------------------------------
+Now everything is Ready, We have to go and open the web panel :
+Finally access Webmail
+Open Browser :
+	http://server-ip/webmail
+	http://yourdomainname/webmail
