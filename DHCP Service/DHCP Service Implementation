@@ -1,1 +1,13 @@
 Dynamic Host Configuration Protocol
+[CentOS - 7]
+Start :------>
+
+# yum install dhcp -y
+# systemctl start dhcpd
+
+* Tip = If our server is a DHCP Client, and it gets an IP from somewhere else, we get an error when starting DHCPd
+
+Configuration DHCP :
+# cd /etc/dhcpd
+# ls
+# vi dhcpd.conf
