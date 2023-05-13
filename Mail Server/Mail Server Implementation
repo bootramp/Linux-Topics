@@ -274,5 +274,8 @@ Dovecot
 IMAP
 فعال نیست . پس بهتره که این سرویس هارو 
 Enable
-هم کنیم که موقعی که سزوز زوشن میشن اینا هم اتومات استارت بشن
+هم کنیم که موقعی که سروز روشن میشن اینا هم اتومات استارت بشن
 ----------------------------------------
+
+Using this command, we check whether the program we want is installed or not :
+# rpm -qa | grep <Program Name>
