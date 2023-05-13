@@ -1,0 +1,42 @@
+Setting up v2ray ws+tls+cdn :
+[Ubuntu]
+
+> Part one – install the script
+1. First make updates and upgrades, and install curl
+# apt-get update -y
+# apt-get upgrade -y
+# apt install curl -y
+
+2. Run the x-ui script
+# bash <(curl -Ls https://raw.githubusercontent.com/vaxilu/x-ui/master/install.sh)
+And that is it for the installation part.
+
+> Part two – get the SSL Certificates
+Go to [www.noip.com] and create new account and get free domain
+3. Getting SSL Certificate
+Now SSH to your VPS using Putty.
+    1. Install certbot.
+# apt install software-properties-common
+# add-apt-repository ppa:certbot/certbot
+# apt-get install certbot
+
+    2. Use certbot to get SSL Certificate. Use your own email address and domain name.
+# sudo certbot certonly --standalone --preferred-challenges http --agree-tos --email your-email-address -d test.example.com
+    3. If you get a note like “Congratulations!..”, it means that now you have SSL certificate for your domain/sub-domain.
+[/etc/letsencrypt/live/test.example.com/fullchain.pem] ---- [/etc/letsencrypt/live/test.example.com/privkey.pem]
+
+    4. Last, the SSL certificate expires in 90 days, to make sure to renew it before expiration. Here is a manual renewal command.
+# certbot renew --force-renewal
+
+Note:
+If you face errors and cannot get the certificate, please make sure that your firewall is listening to ports 80 and 443, you have pointed your VPS IP address to the domain name and the Cloudflare CDN is off.
+
+Managing v2ray
+Adding a user
+You can go to x-ui web panel typing your IP address and the port (54321) on a browser. By default, both login and password are admin. You can change them in the panel settings. 
+http://"your-ip-address":54321
+
+
+BBR script
+If you think your v2ray has slow speed, or have an older Linux version on your VPS, you can use bbr script by teddysun, to install google bbr.
+# wget -N --no-check-certificate https://github.com/teddysun/across/raw/master/bbr.sh && chmod +x bbr.sh && bash bbr.sh
