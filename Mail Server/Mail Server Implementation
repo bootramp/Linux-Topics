@@ -208,3 +208,28 @@ Now go to squirrelmail folder and configure it according to your server :
 # cd /usr/share/squirrelmail/config/
 Execute this file :
 # ./conf.pl
+------------------ conf.pl ------------------
+	Main Menu :
+	
+	
+	
+	Command >> 1
+		Organization Preferences :
+		>> 1 (Organization Name)
+			: test.com
+		>> S (Save Data)
+		
+	Main Menu : 
+	>> 2 (Server Setting)
+		Gen....
+		>> 1
+		>> test.com
+		>> 3 (Send Mail or SMTP)
+		>> 2 (SMTP)
+		>> S
+	>> Q
+## R = Return to Main Menu
+## C = Turn color off
+## S = Save data
+## Q = Qiut
+------------------ conf.pl ------------------
