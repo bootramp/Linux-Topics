@@ -28,8 +28,10 @@ Now SSH to your VPS using Putty.
     4. Last, the SSL certificate expires in 90 days, to make sure to renew it before expiration. Here is a manual renewal command.
 # certbot renew --force-renewal
 
+****************************************************************************************************
 Note:
 If you face errors and cannot get the certificate, please make sure that your firewall is listening to ports 80 and 443, you have pointed your VPS IP address to the domain name and the Cloudflare CDN is off.
+****************************************************************************************************
 
 Managing v2ray
 Adding a user
