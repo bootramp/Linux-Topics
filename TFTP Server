@@ -1,0 +1,30 @@
+[CentOS]
+
+# yum install tftp tftp-server -y
+------------ Firewall ------------
+Firewall Configuration :
+# firewall-cmd --permanent --add-service=tftp
+# firewall-cmd --permanent --add-port=69/tcp
+# firewall-cmd --reload
+------------ Firewall ------------
+
+# tftp
+------------- TFTP -------------
+(to) <Destination IP Address>
+## Help:
+        connect         connect to remote tftp
+        mode            set file transfer mode
+        put             send file
+        get             receive file
+        quit            exit tftp
+        verbose         toggle verbose mode
+        trace           toggle packet tracing
+        literal         toggle literal mode, ignore ':' in file name
+        status          show current status
+        binary          set mode to octet
+        ascii           set mode to netascii
+        rexmt           set per-packet transmission timeout
+        timeout         set total retransmission timeout
+        ?               print help information
+        help            print help information
+------------- TFTP -------------
