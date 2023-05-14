@@ -125,3 +125,19 @@ yes but first of all must unmount disk then insert this command :
 Now, Authorization :
 2- 
 ------------------- Targetcli -------------------
+# targetcli
+Remove all configuration :
+>> delete /backstore/block/disk1 - disk2
+>> saveconfig
+>> exit
+# targetcli
+>> delete /iscsi/iqn.....
+vf /backstore/block
+>> create..... (All Configuration as routine)
+------------------- Targetcli -------------------
+All clients have an *initiatorname* for themselves
+[Client Side]
+# cd /etc/iscsi/
+# ls
+# cat initiatorname.iscsi
+	initiatorname = 
