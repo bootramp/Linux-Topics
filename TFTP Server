@@ -1,8 +1,9 @@
 [CentOS]
 
 # yum install tftp tftp-server -y
+
 ------------ Firewall ------------
-Firewall Configuration :
+**** Firewall Configuration : ****
 # firewall-cmd --permanent --add-service=tftp
 # firewall-cmd --permanent --add-port=69/tcp
 # firewall-cmd --reload
