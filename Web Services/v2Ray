@@ -30,12 +30,14 @@ Now SSH to your VPS using Putty.
 
 ****************************************************************************************************
 Note:
-If you face errors and cannot get the certificate, please make sure that your firewall is listening to ports 80 and 443, you have pointed your VPS IP address to the domain name and the Cloudflare CDN is off.
+If you face errors and cannot get the certificate, please make sure that your firewall is listening to ports 80 and 443, 
+you have pointed your VPS IP address to the domain name and the Cloudflare CDN is off.
 ****************************************************************************************************
 
 Managing v2ray
 Adding a user
-You can go to x-ui web panel typing your IP address and the port (54321) on a browser. By default, both login and password are admin. You can change them in the panel settings. 
+You can go to x-ui web panel typing your IP address and the port (54321) on a browser. By default, both login and password are admin. 
+You can change them in the panel settings. 
 http://"your-ip-address":54321
 
 
