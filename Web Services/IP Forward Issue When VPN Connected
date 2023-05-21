@@ -48,3 +48,21 @@ Add more 2 below rules:
 and make sure that you removed the old gateway on the client:
 
 # route del default gw 10.0.0.1 dev <ethx>
+
+
+
+
+You can automate the restore process at reboot by installing an additional package for iptables 
+which takes over the loading of the saved rules. To this with the following command.
+
+# sudo apt-get install iptables-persistent
+
+After the installation the initial setup will ask to save the current rules for IPv4 and IPv6, 
+just select Yes and press enter for both.
+
+If you make further changes to your iptables rules, 
+remember to save them again using the same command as above. 
+The iptables-persistent looks for the files rules.v4 and rules.v6 under /etc/iptables.
+
+These are just a few simple commands you can use with iptables, 
+which is capable of much more. Read on to check on some of the other options available for more advanced control over iptable rules.
