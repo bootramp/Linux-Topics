@@ -1,0 +1,50 @@
+Masquerade traffic from certain source IP to VPN connection
+Asked 11 years, 8 months ago
+Modified 7 years, 3 months ago
+Viewed 3k times
+
+0
+
+
+Network Setup:
+
+10.0.0.1 Router: to internet
+10.0.0.70 Server: Ubuntu based server,default gateway is 10.0.0.1
+10.0.0.51 PC
+
+I created a PPTP connection(interface: ppp0) on Server to a machine on the internet, what I want to do is route all the traffic from certain IP address(10.0.0.51) through the PPTP connection and then to the internet. What I did are:
+
+Set the gateway on PC(10.0.0.51) as 10.0.0.70
+Enabled ipv4 forward on 10,0,0,70
+Add the masquerade rule to iptable:
+# iptables -t nat -A POSTROUTING -o ppp0 -s 10.0.0.51 -j MASQUERADE
+After that, it seems none of the traffic from 10.0.0.51 be redirected to ppp0, instead these traffic are still going through 10.0.0.1 directly.
+
+Any thoughts on it?
+
+vpniptablesroute
+Share
+Improve this question
+Follow
+asked Aug 29, 2011 at 6:10
+Shuo Ran's user avatar
+Shuo Ran
+111 silver badge11 bronze badge
+Add a comment
+1 Answer
+Sorted by:
+
+Highest score (default)
+
+1
+
+
+Assuming that the internal interface on Ubuntu gateway is eth0.
+
+Add more 2 below rules:
+
+# iptables -A FORWARD -i eth0 -o ppp0 -s 10.0.0.51 -j ACCEPT
+# iptables -A FORWARD -i ppp0 -o eth0 -m state --state ESTABLISHED,RELATED -j ACCEPT
+and make sure that you removed the old gateway on the client:
+
+# route del default gw 10.0.0.1 dev <ethx>
