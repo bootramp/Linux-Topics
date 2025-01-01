@@ -1,0 +1,25 @@
+vim /etc/systemd/system/myprogram.service
+
+------------------------------------------------------------------------------------
+[Unit]
+Description=My Program
+After=network.target
+Requires=network.target
+
+[Service]
+ExecStart=<"/path/to/your/program">
+WorkingDirectory=<"/path/to/your/program/directory">
+Restart=always
+User=your-username
+Group=your-group
+Environment=YOUR_ENV_VARIABLE=value
+
+[Install]
+WantedBy=multi-user.target
+------------------------------------------------------------------------------------
+
+
+sudo systemctl daemon-reload
+sudo systemctl start myprogram.service
+sudo systemctl enable myprogram.service
+sudo systemctl status myprogram.service
