@@ -1,0 +1,12 @@
+This scrpit just run on "SecureCRT" application
+
+Do
+    crt.Screen.Send "show interface status | include connected" & vbCr
+    crt.Screen.WaitForString "#" 
+    crt.Sleep 5000 
+Loop
+
+
+Every 5 Sec, this script execute on SecureCRT when you ssh to switch, and after 5 Sec, "show interface status | include connceted" will be execute
+
+crt.Screen.WaitForString "#"  This command waiting for # sign in command prompt
